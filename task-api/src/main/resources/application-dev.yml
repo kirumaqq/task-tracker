@@ -1,0 +1,21 @@
+logging:
+  level:
+    sql: trace
+    root: info
+    io.umid.taskapi: debug
+    org.springframework:
+      security: trace
+
+
+spring:
+  security:
+    user:
+      password: password
+      name: user
+  datasource:
+    url: jdbc:postgresql://localhost:5433/task-api
+    username: skufidron
+    password: password
+
+  liquibase:
+    change-log: db/changelog/changelog-master.yml
