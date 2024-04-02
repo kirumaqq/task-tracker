@@ -1,0 +1,14 @@
+logging:
+  level:
+    sql: trace
+    root: info
+    io.umid.taskapi: debug
+    org.springframework:
+      security: trace
+
+
+spring:
+  security:
+    user:
+      password: password
+      name: user
