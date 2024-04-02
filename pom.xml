@@ -10,6 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <modules>
+        <module>task-api</module>
+    </modules>
+
     <groupId>io.umid</groupId>
     <artifactId>task-tracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
