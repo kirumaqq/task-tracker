@@ -1,0 +1,24 @@
+name: task-api
+
+services:
+  back-end:
+    image: task-api:0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pg_db:5432/${POSTGRES_DB:-task-api}
+
+  pg_db:
+    image: postgres:15
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-skufidron}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-task-api}
+
+
+
