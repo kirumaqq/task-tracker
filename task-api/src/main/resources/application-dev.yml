@@ -16,3 +16,6 @@ spring:
     url: jdbc:postgresql://localhost:5433/task-api
     username: skufidron
     password: password
+
+  liquibase:
+    change-log: db/changelog/changelog-master.yml
