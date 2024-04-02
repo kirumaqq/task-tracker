@@ -12,3 +12,7 @@ spring:
     user:
       password: password
       name: user
+  datasource:
+    url: jdbc:postgresql://localhost:5433/task-api
+    username: skufidron
+    password: password
