@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 public class Task {
 
     @Id
-    Integer id;
+    Long id;
 
     @Column(name = "title", nullable = false)
     String title;
