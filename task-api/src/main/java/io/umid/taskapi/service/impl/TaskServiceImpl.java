@@ -1,10 +1,14 @@
 package io.umid.taskapi.service.impl;
 
+import io.umid.taskapi.dto.CreateTask;
 import io.umid.taskapi.dto.PageRequestDto;
 import io.umid.taskapi.dto.TaskResponse;
+import io.umid.taskapi.entity.Task;
+import io.umid.taskapi.entity.User;
 import io.umid.taskapi.mapper.TaskMapper;
 import io.umid.taskapi.repository.TaskRepository;
 import io.umid.taskapi.service.TaskService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +32,21 @@ public class TaskServiceImpl implements TaskService {
 
         return taskRepository.getAllByUserId(userId, pageRequest)
                 .map(taskMapper::toResponse);
+    }
+
+    @Transactional
+    @Override
+    public TaskResponse createTask(String userId, CreateTask createTask) {
+
+        Task task = taskMapper.fromCreateTask(createTask);
+        User associatedUser = new User();
+        associatedUser.setId(userId);
+        task.setUser(associatedUser);
+
+        log.debug("Saving task {} for user with id: {}", task, userId);
+        Task savedTask = taskRepository.save(task);
+
+        return taskMapper.toResponse(savedTask);
     }
 
 }
