@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 public class Task {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "title", nullable = false)
