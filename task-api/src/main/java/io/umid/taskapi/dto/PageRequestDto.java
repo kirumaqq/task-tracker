@@ -10,13 +10,14 @@ import org.springframework.data.domain.Sort;
 @Data
 public class PageRequestDto {
 
-    int page = 1;
+    int page = 0;
     int size = 10;
-    String[] sortBy;
+    String[] sortBy = new String[]{"id"};
     Sort.Direction direction = Sort.Direction.ASC;
-
+    boolean defaultSort = true;
 
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy.split(" ");
+        this.defaultSort = false;
     }
 }
