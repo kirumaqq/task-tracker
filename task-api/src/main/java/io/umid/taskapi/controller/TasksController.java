@@ -26,14 +26,14 @@ public class TasksController {
     private final TaskService taskService;
 
 
-    @GetMapping("/user/tasks")
+    @GetMapping("/tasks")
     public ResponseEntity<Page<TaskResponse>> getUserTasks(Principal principal,
                                                            PageRequestDto pageRequestDto) {
-        log.info("Reading user, {}, tasks", principal);
+        log.info("Reading tasks of user: {}", principal);
         log.debug("Page request: {}", pageRequestDto);
 
         var tasks = taskService.getUserTasks(principal.getName(), pageRequestDto);
-        log.info("Got user tasks: {}", tasks);
+        log.info("Got user tasks: {}", tasks.getContent());
 
         return ResponseEntity.ok(tasks);
     }
