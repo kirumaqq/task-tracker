@@ -38,6 +38,6 @@ public class Task {
     @Column(name = "created_at", nullable = false)
     Timestamp createdAt;
 
-    @Column(name = "done_at")
+    @Column(name = "completed_at")
     Timestamp completedAt;
 }
