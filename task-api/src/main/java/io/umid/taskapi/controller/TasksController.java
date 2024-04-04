@@ -48,7 +48,7 @@ public class TasksController {
     }
 
     @DeleteMapping("/task/{id}")
-    public ResponseEntity<TaskResponse> deleteTask(Principal principal,
+    public ResponseEntity<?> deleteTask(Principal principal,
                                                    @PathVariable("id") Long taskId) {
         log.info("Deleting task, with id {}, of user: {}", taskId, principal);
 
