@@ -25,8 +25,8 @@ public class TasksController {
 
 
     @GetMapping("/tasks")
-    public ResponseEntity<Page<TaskResponse>> getUserTasks(Principal principal,
-                                                           PageRequestDto pageRequestDto) {
+    public ResponseEntity<Page<TaskResponse>> getTasks(Principal principal,
+                                                       PageRequestDto pageRequestDto) {
         log.info("Reading tasks of user: {}", principal);
         log.debug("Page request: {}", pageRequestDto);
 
