@@ -2,6 +2,7 @@ package io.umid.taskapi.controller;
 
 
 import io.umid.taskapi.dto.CreateTask;
+import io.umid.taskapi.dto.EditTask;
 import io.umid.taskapi.dto.PageRequestDto;
 import io.umid.taskapi.dto.TaskResponse;
 import io.umid.taskapi.service.TaskService;
@@ -53,6 +54,18 @@ public class TasksController {
         log.info("Deleting task, with id {}, of user: {}", taskId, principal);
 
         taskService.deleteTask(principal.getName(), taskId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/task/{id}")
+    public ResponseEntity<?> editTask(Principal principal,
+                                                 @PathVariable("id") Long taskId,
+                                                 EditTask editTask) {
+        log.info("Updating task, with id {}, of user: {}", taskId, principal);
+        log.info("Edit task dto: {}", editTask);
+
+        taskService.updateTask(principal.getName(), taskId, editTask);
+
         return ResponseEntity.noContent().build();
     }
 

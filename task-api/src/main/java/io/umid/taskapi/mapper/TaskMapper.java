@@ -1,20 +1,22 @@
 package io.umid.taskapi.mapper;
 
 import io.umid.taskapi.dto.CreateTask;
+import io.umid.taskapi.dto.EditTask;
 import io.umid.taskapi.dto.TaskResponse;
 import io.umid.taskapi.entity.Task;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TaskMapper {
 
     TaskResponse toResponse(Task task);
 
 
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "completedAt", ignore = true)
     Task fromCreateTask(CreateTask createTask);
+
+
+    void updateTask(EditTask editTask, @MappingTarget Task task);
+
 }

@@ -1,9 +1,11 @@
 package io.umid.taskapi.service.impl;
 
 import io.umid.taskapi.dto.CreateTask;
+import io.umid.taskapi.dto.EditTask;
 import io.umid.taskapi.dto.PageRequestDto;
 import io.umid.taskapi.dto.TaskResponse;
 import io.umid.taskapi.entity.Task;
+import io.umid.taskapi.entity.TaskStatus;
 import io.umid.taskapi.entity.User;
 import io.umid.taskapi.exception.ResourceNotFoundException;
 import io.umid.taskapi.mapper.TaskMapper;
@@ -65,6 +67,26 @@ public class TaskServiceImpl implements TaskService {
 
         log.debug("Deleting task: {}", task);
         taskRepository.delete(task);
+    }
+
+    @Transactional
+    @Override
+    public void updateTask(String userId, long id, EditTask editTask) {
+
+        log.debug("Fetching task by id: {} of user with id: {}", id, userId);
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find task by id: " + id));
+
+        if (!userId.equals(task.getUser().getId())) {
+            throw new AccessDeniedException("Task user id and requested user id didn't match");
+        }
+
+        if (editTask.getStatus() == TaskStatus.COMPLETED) {
+            task.setCompletedAt(null);
+        }
+
+        taskMapper.updateTask(editTask, task);
+        log.debug("Updated task: {}", task);
     }
 
 }
