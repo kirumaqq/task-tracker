@@ -4,9 +4,10 @@ package io.umid.taskapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.FieldNameConstants;
 
 import java.sql.Timestamp;
-
+@FieldNameConstants
 @ToString(exclude = "user")
 @EqualsAndHashCode(exclude = "user")
 @Getter

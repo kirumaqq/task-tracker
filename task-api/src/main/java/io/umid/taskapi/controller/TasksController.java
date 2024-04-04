@@ -1,10 +1,7 @@
 package io.umid.taskapi.controller;
 
 
-import io.umid.taskapi.dto.CreateTask;
-import io.umid.taskapi.dto.EditTask;
-import io.umid.taskapi.dto.PageRequestDto;
-import io.umid.taskapi.dto.TaskResponse;
+import io.umid.taskapi.dto.*;
 import io.umid.taskapi.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -67,6 +65,17 @@ public class TasksController {
         taskService.updateTask(principal.getName(), taskId, editTask);
 
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/tasks/all")
+    public ResponseEntity<List<TaskUserResponse>> getAllTasks(TaskFilter taskFilter) {
+        log.info("Fetching all tasks");
+
+        var tasks =  taskService.getAllTasks(taskFilter);
+        log.info("Tasks: {}", tasks);
+
+        return ResponseEntity.ok(tasks);
     }
 
 

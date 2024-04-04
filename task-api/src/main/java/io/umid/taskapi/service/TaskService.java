@@ -1,10 +1,9 @@
 package io.umid.taskapi.service;
 
-import io.umid.taskapi.dto.CreateTask;
-import io.umid.taskapi.dto.EditTask;
-import io.umid.taskapi.dto.PageRequestDto;
-import io.umid.taskapi.dto.TaskResponse;
+import io.umid.taskapi.dto.*;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface TaskService {
 
@@ -15,4 +14,6 @@ public interface TaskService {
     void deleteTask(String userId, long id);
 
     void updateTask(String userId, long id, EditTask editTask);
+
+    List<TaskUserResponse> getAllTasks(TaskFilter taskFilter);
 }

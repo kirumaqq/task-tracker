@@ -3,12 +3,13 @@ package io.umid.taskapi.mapper;
 import io.umid.taskapi.dto.CreateTask;
 import io.umid.taskapi.dto.EditTask;
 import io.umid.taskapi.dto.TaskResponse;
+import io.umid.taskapi.dto.TaskUserResponse;
 import io.umid.taskapi.entity.Task;
 import org.mapstruct.*;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        uses = UserMapper.class)
 public interface TaskMapper {
 
     TaskResponse toResponse(Task task);
@@ -18,5 +19,9 @@ public interface TaskMapper {
 
 
     void updateTask(EditTask editTask, @MappingTarget Task task);
+
+
+    @Mapping(target = "userInfo", source = "user")
+    TaskUserResponse toTaskUserResponse(Task task);
 
 }
