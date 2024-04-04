@@ -5,6 +5,7 @@ import io.umid.taskapi.dto.PageRequestDto;
 import io.umid.taskapi.dto.TaskResponse;
 import io.umid.taskapi.entity.Task;
 import io.umid.taskapi.entity.User;
+import io.umid.taskapi.exception.ResourceNotFoundException;
 import io.umid.taskapi.mapper.TaskMapper;
 import io.umid.taskapi.repository.TaskRepository;
 import io.umid.taskapi.service.TaskService;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -47,6 +49,22 @@ public class TaskServiceImpl implements TaskService {
         Task savedTask = taskRepository.save(task);
 
         return taskMapper.toResponse(savedTask);
+    }
+
+    @Transactional
+    @Override
+    public void deleteTask(String userId, long id) {
+
+        log.debug("Fetching task by id: {} of user with id: {}", id, userId);
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find task by id: " + id));
+
+        if (!userId.equals(task.getUser().getId())) {
+            throw new AccessDeniedException("Task user id and requested user id didn't match");
+        }
+
+        log.debug("Deleting task: {}", task);
+        taskRepository.delete(task);
     }
 
 }

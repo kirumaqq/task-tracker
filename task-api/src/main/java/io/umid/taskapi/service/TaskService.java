@@ -10,4 +10,6 @@ public interface TaskService {
     Page<TaskResponse> getUserTasks(String userId, PageRequestDto pageRequestDto);
 
     TaskResponse createTask(String userId, CreateTask createTask);
+
+    void deleteTask(String userId, long id);
 }
