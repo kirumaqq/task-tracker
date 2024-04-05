@@ -9,6 +9,8 @@ import io.umid.taskapi.mapper.TaskMapper;
 import io.umid.taskapi.repository.TaskRepository;
 import io.umid.taskapi.service.TaskService;
 import io.umid.taskapi.specs.TaskSpecs;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskMapper taskMapper;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public Page<TaskResponse> getUserTasks(String userId, PageRequestDto pageRequestDto) {
         var pageRequest = PageRequest.of(pageRequestDto.getPage(), pageRequestDto.getSize(),
@@ -43,11 +48,10 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponse createTask(String userId, CreateTask createTask) {
 
         Task task = taskMapper.fromCreateTask(createTask);
-        User associatedUser = new User();
-        associatedUser.setId(userId);
-        task.setUser(associatedUser);
 
-        log.debug("Saving task {} for user with id: {}", task, userId);
+        User userReference = entityManager.getReference(User.class, userId);
+        task.setUser(userReference);
+
         Task savedTask = taskRepository.save(task);
 
         return taskMapper.toResponse(savedTask);
