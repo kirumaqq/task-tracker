@@ -4,9 +4,10 @@ package io.umid.taskapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.FieldNameConstants;
 
 import java.sql.Timestamp;
-
+@FieldNameConstants
 @ToString(exclude = "user")
 @EqualsAndHashCode(exclude = "user")
 @Getter
@@ -19,7 +20,8 @@ import java.sql.Timestamp;
 public class Task {
 
     @Id
-    Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @Column(name = "title", nullable = false)
     String title;
@@ -27,7 +29,7 @@ public class Task {
     @Column(name = "description")
     String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
@@ -38,6 +40,6 @@ public class Task {
     @Column(name = "created_at", nullable = false)
     Timestamp createdAt;
 
-    @Column(name = "done_at")
+    @Column(name = "completed_at")
     Timestamp completedAt;
 }
