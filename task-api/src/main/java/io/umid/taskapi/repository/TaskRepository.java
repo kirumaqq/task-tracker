@@ -4,6 +4,7 @@ import io.umid.taskapi.entity.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,12 +16,7 @@ public interface TaskRepository extends CrudRepository<Task, Long>, JpaSpecifica
 
     Page<Task> getAllByUserId(String userId, Pageable pageable);
 
-    @Query("""
-            select t, u
-            from Task t
-            join fetch User u
-            on t.user = u
-            """)
+    @EntityGraph(attributePaths = "user")
     @Override
     List<Task> findAll(Specification<Task> spec);
 }
