@@ -35,12 +35,20 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskResponse> getUserTasks(String userId, PageRequestDto pageRequestDto) {
-        var pageRequest = PageRequest.of(pageRequestDto.getPage(), pageRequestDto.getSize(),
-                pageRequestDto.getDirection(), pageRequestDto.getSortBy());
+        var pageRequest = formPageRequest(pageRequestDto);
+
         log.debug("Formed page request: {}. Sending request to repository", pageRequest);
 
         return taskRepository.getAllByUserId(userId, pageRequest)
                 .map(taskMapper::toResponse);
+    }
+
+    private static PageRequest formPageRequest(PageRequestDto pageRequestDto) {
+        var pageRequest = PageRequest.of(pageRequestDto.getPage(), pageRequestDto.getSize());
+        if (!pageRequestDto.isDefaultSort()) {
+            pageRequest = pageRequest.withSort(pageRequestDto.getDirection(), pageRequestDto.getSortBy());
+        }
+        return pageRequest;
     }
 
     @Transactional

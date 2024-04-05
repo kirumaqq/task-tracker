@@ -12,7 +12,7 @@ public class PageRequestDto {
 
     int page = 0;
     int size = 10;
-    String[] sortBy = new String[]{"id"};
+    String[] sortBy;
     Sort.Direction direction = Sort.Direction.ASC;
     boolean defaultSort = true;
 
