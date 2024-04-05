@@ -93,11 +93,12 @@ public class TaskServiceImpl implements TaskService {
             throw new AccessDeniedException("Task user id and requested user id didn't match");
         }
 
-        if (editTask.getStatus() == TaskStatus.COMPLETED) {
+        taskMapper.updateTask(editTask, task);
+
+        if (editTask.getStatus() == TaskStatus.NOT_COMPLETED) {
             task.setCompletedAt(null);
         }
 
-        taskMapper.updateTask(editTask, task);
         log.debug("Updated task: {}", task);
     }
 
