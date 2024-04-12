@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +28,7 @@ public class User {
 
     @Column(name = "last_name")
     String lastName;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Task> tasks;
 }
