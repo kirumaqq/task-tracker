@@ -3,7 +3,11 @@ package io.umid.taskapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.FieldNameConstants;
 
+import java.util.List;
+
+@FieldNameConstants
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +30,7 @@ public class User {
 
     @Column(name = "last_name")
     String lastName;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Task> tasks;
 }

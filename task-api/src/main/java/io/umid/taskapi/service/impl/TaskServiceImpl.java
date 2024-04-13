@@ -1,6 +1,9 @@
 package io.umid.taskapi.service.impl;
 
-import io.umid.taskapi.dto.*;
+import io.umid.taskapi.dto.CreateTask;
+import io.umid.taskapi.dto.EditTask;
+import io.umid.taskapi.dto.PageRequestDto;
+import io.umid.taskapi.dto.TaskResponse;
 import io.umid.taskapi.entity.Task;
 import io.umid.taskapi.entity.TaskStatus;
 import io.umid.taskapi.entity.User;
@@ -8,7 +11,6 @@ import io.umid.taskapi.exception.ResourceNotFoundException;
 import io.umid.taskapi.mapper.TaskMapper;
 import io.umid.taskapi.repository.TaskRepository;
 import io.umid.taskapi.service.TaskService;
-import io.umid.taskapi.specs.TaskSpecs;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -18,8 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -103,22 +103,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-    @Override
-    public List<TaskUserResponse> getAllTasks(TaskFilter taskFilter) {
-
-        var createdAtSpec = TaskSpecs.timestampBetween(taskFilter.getCreatedAtLowerBound(),
-                taskFilter.getCreatedAtUpperBound(), Task.Fields.createdAt);
-        var completedAtSpec = TaskSpecs.timestampBetween(taskFilter.getCompletedAtLowerBound(),
-                taskFilter.getCreatedAtUpperBound(), Task.Fields.completedAt);
-        var spec = createdAtSpec.and(completedAtSpec);
-
-        var tasks = taskRepository.findAll(spec);
-
-        return tasks
-                .stream()
-                .map(taskMapper::toTaskUserResponse)
-                .toList();
-    }
 
 
 }
